@@ -1,0 +1,50 @@
+.Authform__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    /* height: 300px;  */
+}
+.Authform {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 2rem;
+    height: 250px;
+    box-shadow: 0px 0px 8px 0px #00000047;;
+    border-radius: 0.5rem;
+}
+.Authform label {
+    font-size: 1.2rem;
+    color: #0a77fcee;
+    font-weight: bolder;
+    letter-spacing: 0.2rem;
+    font-family: Verdana;
+    margin-bottom: -30px; 
+}
+.Authform input {
+    border: none;
+    font-size: 1.5rem;
+    font-family: monospace;
+    font-weight: bolder;
+    box-shadow: 0px 0px 4px 0px #0000004d; 
+    padding: 0.5rem 0.5rem;
+    transition: box-shadow 0.2s;
+}
+.Authform input::placeholder{
+    transition: all 0.4s 0.2s; 
+}
+
+.Authform input:focus::placeholder{
+    /* color: white;  */
+    font-size: 0.5rem; 
+}
+.Authform--heading{
+    color: #901eee; 
+    text-shadow: 2px 2px 1px black; 
+}
+.Authform a{
+    align-self: center;
+    cursor: pointer;
+}
