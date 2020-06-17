@@ -8,8 +8,8 @@ export default class ChatBox extends Component {
         super(props);
         let rName = this.props.location.rName || localStorage.getItem('rName');
         let name = this.props.location.name || localStorage.getItem('name');
-        rName = rName ? rName.trim() : null; 
-        name = name ? name.trim() : null; 
+        rName = rName ? rName.trim() : null;
+        name = name ? name.trim() : null;
         this.state = {
             rName,
             name,
@@ -69,12 +69,28 @@ export default class ChatBox extends Component {
         this.removeItem();
         window.location.reload();
     }
+
+    handleImageChange = () => {
+        let reader = new FileReader();
+        let file = document.getElementById('imageFileInput').files[0];
+        let baseString;
+        const { rName, name } = this.state;
+        reader.onloadend = (data) => {
+            baseString = data.target.result;
+            Axios.post(`http://${address.hostname}/image`, { rName, name, baseString });
+        }
+        reader.readAsDataURL(file);
+    }
+
     render() {
         let Messages = this.state.messages.map(m => {
             if (this.state.name === m.name) {
-                return <Message self from={m.name} message={m.message} key={m.key} />
+                if (m.type === "message") return <Message self from={m.name} message={m.message} type="message" key={m.key} />
+                else return <Message self from={m.name} baseString={m.baseString} type="image" key={m.key} />
             }
-            return <Message from={m.name} message={m.message} key={m.key} />
+
+            if (m.type === "message") return <Message  from={m.name} message={m.message} type="message" key={m.key} />
+            else return <Message  from={m.name}  baseString={m.baseString} type="image" key={m.key} />
         });
         return (
             <div className="ChatBox">
@@ -85,7 +101,11 @@ export default class ChatBox extends Component {
                     <div className="Messages">
                         {Messages}
                     </div>
+                    <form>
+                        <input type="file" onChange={this.handleImageChange} name="image" id="imageFileInput" accept="image/*" />
+                    </form>
                     <form onSubmit={this.handleSubmit}>
+                        <label htmlFor="imageFileInput" id="imageFile"><span><i className="material-icons">add_to_photos</i></span></label>
                         <input autoComplete="off" type="text" name="message" value={this.state.message} placeholder="Enter Message" onChange={this.handleInput} />
                         <button>></button>
                     </form>

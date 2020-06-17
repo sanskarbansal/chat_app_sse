@@ -42,7 +42,15 @@ span{
 .MessageBox p{
     width: 100%; 
 }
-
+.right Message{
+    justify-content: flex-end;
+}
+img{
+    margin-top: 10px; 
+    width: 50%; 
+    border-radius: 8px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.8);
+}
 @media only screen and (max-width: 550px) {
     .MessageBox{
         max-width: 70%;
@@ -52,4 +60,10 @@ span{
         font-size: 1rem;  
     }
 
+}
+
+@media only screen and (max-width: 550px) {
+    img{
+        width: 100%; 
+    }
 }

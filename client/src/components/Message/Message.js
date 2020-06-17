@@ -5,11 +5,7 @@ export default (props) => {
         <div className={`Message__container ${props.self ? 'right' : 'left'}`}>
             <div className="MessageBox">
                 <span>From: {props.from}</span>
-                <div className="Message ">
-                    <div>
-                        <p>{props.message}</p>
-                    </div>
-                </div>
+                {props.type === 'message' ? <div className="Message "><p>{props.message}</p></div> : <img src={props.baseString} />}
             </div>
         </div>
     )

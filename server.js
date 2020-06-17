@@ -8,8 +8,8 @@ const path = require('path');
 const port = process.env.PORT || 1337;
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({ limit: '50mb' , extended: true }));
 app.use(cors());
 
 let rooms = {};
@@ -53,9 +53,22 @@ app.post('/message', (req, res) => {
         return res.status(200, { message: "Message cant be empty." });
     }
     const key = uuidv4();
+    let data = `data: ${JSON.stringify({ ...req.body, key, type: 'message' })}\n\n`;
+    if (rooms[rName]) {
+        rooms[rName].messages.push({ ...req.body, key, type: 'message'});
+        rooms[rName].clients.forEach(client => {
+            client.res.write(data);
+        });
+    }
+    return res.status(200).send({ message: "Successfully Sent" });
+})
+
+app.post('/image', (req, res) => {
+    const {rName, name, baseString} = req.body; 
+    const key = uuidv4();
     let data = `data: ${JSON.stringify({ ...req.body, key })}\n\n`;
     if (rooms[rName]) {
-        rooms[rName].messages.push({ ...req.body, key });
+        rooms[rName].messages.push({ ...req.body, key, type: 'image'});
         rooms[rName].clients.forEach(client => {
             client.res.write(data);
         });
